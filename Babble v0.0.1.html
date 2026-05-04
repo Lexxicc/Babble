@@ -475,6 +475,63 @@ body {
   flex-shrink: 0;
   letter-spacing: .08em;
 }
+
+/* Subpanels */
+.subpanel { width: 100%; max-width: 380px; }
+
+.subpanel-btn {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: .45rem .7rem;
+  background: var(--color-panel);
+  border: 1px solid var(--color-primary);
+  border-radius: 6px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  font-family: 'VT323', monospace;
+  font-size: 1rem;
+  color: var(--color-accent);
+  letter-spacing: .06em;
+  text-align: left;
+}
+.subpanel-btn.open { border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
+.subpanel-chevron { font-size: .7rem; color: var(--color-primary); transition: transform .18s; }
+.subpanel-btn.open .subpanel-chevron { transform: rotate(180deg); }
+
+.subpanel-body {
+  display: none;
+  padding: .55rem .7rem .7rem;
+  background: var(--color-panel);
+  border: 1px solid var(--color-primary);
+  border-top: none;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+  font-family: 'VT323', monospace;
+  font-size: .93rem;
+  color: #c0dab8;
+  line-height: 1.55;
+}
+.subpanel-body.open { display: block; }
+
+.htp-rule { padding: 2px 0; }
+.setting-row { display: flex; justify-content: space-between; align-items: center; padding: .3rem 0; }
+.setting-label { color: var(--color-accent); }
+.toggle-btn {
+  font-family: 'VT323', monospace;
+  font-size: .9rem;
+  padding: .2rem .55rem;
+  border-radius: 4px;
+  border: 1px solid var(--color-primary);
+  background: var(--color-shadow);
+  color: var(--color-accent);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.hs-row { display: flex; justify-content: space-between; padding: 2px 0; border-bottom: 1px solid rgba(74,128,64,.15); }
+.hs-label { color: var(--color-primary); }
+.hs-val { color: var(--color-glow); }
 </style>
 </head>
 <body>
@@ -496,11 +553,42 @@ body {
     <button class="btn btn-primary" style="width:100%;" onclick="startChallenge()">Play Challenge</button>
   </div>
 
-  <div id="stats-display"></div>
+  <div class="subpanel">
+    <button class="subpanel-btn" onclick="togglePanel('htp-body', this)">How to Play <span class="subpanel-chevron">▼</span></button>
+    <div class="subpanel-body" id="htp-body">
+      <div class="htp-rule">Answer 10 trivia questions per round.</div>
+      <div class="htp-rule">Each answer is a word — spell it by tapping tiles from your rack.</div>
+      <div class="htp-rule">Tap a tile in your spelling to return it to the rack.</div>
+      <div class="htp-rule">Hit Submit to place your word on the 15×15 board.</div>
+      <div class="htp-rule">Words are placed automatically at the highest-scoring position.</div>
+      <div class="htp-rule">Bonus squares boost your score — but only for newly placed tiles.</div>
+      <div class="htp-rule">2L / 3L multiply that letter's value · 2W / 3W multiply the whole word.</div>
+      <div class="htp-rule">Pass a question once to move it to the end of the queue.</div>
+      <div class="htp-rule">Pass it again to skip it entirely (0 pts).</div>
+      <div class="htp-rule">Score as high as you can!</div>
+    </div>
+  </div>
+
+  <div class="subpanel">
+    <button class="subpanel-btn" onclick="togglePanel('hs-body', this)">High Scores <span class="subpanel-chevron">▼</span></button>
+    <div class="subpanel-body" id="hs-body">
+      <div id="stats-display"></div>
+    </div>
+  </div>
+
+  <div class="subpanel">
+    <button class="subpanel-btn" onclick="togglePanel('settings-body', this)">Settings <span class="subpanel-chevron">▼</span></button>
+    <div class="subpanel-body" id="settings-body">
+      <div class="setting-row">
+        <span class="setting-label">Sound</span>
+        <button class="toggle-btn" id="mute-btn" onclick="toggleMute()">ON</button>
+      </div>
+    </div>
+  </div>
 
   <div id="patch-notes"></div>
 
-  <div style="margin-top:auto; font-family:VT323,monospace; font-size:.8rem; color:#2a4020;">v0.0.0</div>
+  <div style="margin-top:auto; font-family:VT323,monospace; font-size:.8rem; color:#2a4020;">v0.0.1</div>
 </div>
 
 <!-- ══════════════════════════════════════════════════════ GAME -->
@@ -650,6 +738,7 @@ const QB = [
 ];
 
 const PATCH_NOTES = [
+  'v0.0.1 — How to Play, High Scores, and Settings subpanels added to home screen.',
   'v0.0.0 — Babble launches. Spell. Place. Score.',
 ];
 
@@ -864,11 +953,11 @@ function beep(freq, dur, type = 'square', vol = 0.11) {
   } catch(e) {}
 }
 
-function sfxTap()     { beep(880, 0.07); }
-function sfxCorrect() { beep(660, 0.09, 'sine', 0.1); setTimeout(() => beep(880, 0.13, 'sine', 0.1), 80); }
-function sfxWrong()   { beep(200, 0.2,  'sawtooth', 0.09); }
-function sfxPlace()   { beep(440, 0.1,  'sine', 0.1); setTimeout(() => beep(550, 0.12, 'sine', 0.09), 90); }
-function sfxEnd()     { [440,550,660,880].forEach((f, i) => setTimeout(() => beep(f, 0.15, 'sine', 0.1), i * 110)); }
+function sfxTap()     { if (muted) return; beep(880, 0.07); }
+function sfxCorrect() { if (muted) return; beep(660, 0.09, 'sine', 0.1); setTimeout(() => beep(880, 0.13, 'sine', 0.1), 80); }
+function sfxWrong()   { if (muted) return; beep(200, 0.2,  'sawtooth', 0.09); }
+function sfxPlace()   { if (muted) return; beep(440, 0.1,  'sine', 0.1); setTimeout(() => beep(550, 0.12, 'sine', 0.09), 90); }
+function sfxEnd()     { if (muted) return; [440,550,660,880].forEach((f, i) => setTimeout(() => beep(f, 0.15, 'sine', 0.1), i * 110)); }
 
 // ── RACK ──────────────────────────────────────────────────────────────────────
 
@@ -1140,7 +1229,7 @@ function startChallenge() {
 // ── STATS ─────────────────────────────────────────────────────────────────────
 
 const STATS_KEY = 'BAB_stats';
-const WIPE_KEY  = 'BAB_wipe_v1';
+const WIPE_KEY  = 'BAB_wipe_v0.0.0';
 
 function loadStats() {
   if (!localStorage.getItem(WIPE_KEY)) {
@@ -1165,8 +1254,15 @@ function saveStats() {
 function renderStats() {
   const s  = loadStats();
   const el = document.getElementById('stats-display');
-  if (!s.played) { el.textContent = ''; return; }
-  el.textContent = `Played: ${s.played} · Best: ${s.best} pts · Avg: ${Math.round(s.total / s.played)} pts`;
+  if (!s.played) {
+    el.innerHTML = '<div style="color:var(--color-primary)">No games played yet.</div>';
+    return;
+  }
+  el.innerHTML = `
+    <div class="hs-row"><span class="hs-label">Played</span><span class="hs-val">${s.played}</span></div>
+    <div class="hs-row"><span class="hs-label">Best</span><span class="hs-val">${s.best} pts</span></div>
+    <div class="hs-row"><span class="hs-label">Average</span><span class="hs-val">${Math.round(s.total / s.played)} pts</span></div>
+  `;
 }
 
 // ── PATCH NOTES ───────────────────────────────────────────────────────────────
@@ -1174,6 +1270,29 @@ function renderStats() {
 function renderNotes() {
   document.getElementById('patch-notes').innerHTML =
     PATCH_NOTES.map(n => `<div class="note-line">${n}</div>`).join('');
+}
+
+// ── PANELS ────────────────────────────────────────────────────────────────────
+
+function togglePanel(bodyId, btn) {
+  const body = document.getElementById(bodyId);
+  const open = body.classList.toggle('open');
+  btn.classList.toggle('open', open);
+}
+
+// ── MUTE ──────────────────────────────────────────────────────────────────────
+
+let muted = localStorage.getItem('BAB_muted') === '1';
+
+function applyMuteBtn() {
+  const btn = document.getElementById('mute-btn');
+  if (btn) btn.textContent = muted ? 'OFF' : 'ON';
+}
+
+function toggleMute() {
+  muted = !muted;
+  localStorage.setItem('BAB_muted', muted ? '1' : '0');
+  applyMuteBtn();
 }
 
 // ── SCREENS ───────────────────────────────────────────────────────────────────
@@ -1192,6 +1311,7 @@ window.addEventListener('resize', () => {
 window.onload = function () {
   renderNotes();
   renderStats();
+  applyMuteBtn();
   showScreen('screen-home');
 };
 </script>
