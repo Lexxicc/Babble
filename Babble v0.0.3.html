@@ -2,8 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="author" content="lexxicc">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Babble — Spell. Place. Score.</title>
+<title>Babble — Solve. Spell. Score.</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=VT323&display=swap" rel="stylesheet">
@@ -51,6 +52,14 @@ body {
   letter-spacing: .06em;
   line-height: 1;
 }
+
+.home-logo {
+  width: 100%;
+  max-width: 440px;
+  filter: drop-shadow(0 0 32px rgba(240,217,138,0.18));
+  margin-top: .25rem;
+}
+.home-logo svg { width: 100%; height: auto; display: block; }
 
 .home-tagline {
   font-size: .85rem;
@@ -112,12 +121,8 @@ body {
   font-family: 'VT323', monospace;
   font-size: .9rem;
   color: var(--color-primary);
-  max-width: 380px;
-  width: 100%;
   max-height: 160px;
   overflow-y: auto;
-  border-top: 1px solid rgba(74,128,64,.25);
-  padding-top: .5rem;
 }
 
 .note-line {
@@ -538,8 +543,113 @@ body {
 
 <!-- ══════════════════════════════════════════════════════ HOME -->
 <div id="screen-home" class="screen">
-  <h1 class="home-title">BABBLE</h1>
-  <p class="home-tagline">Spell. Place. Score.</p>
+  <div class="home-logo" role="img" aria-label="BABBLE">
+    <svg viewBox="0 0 440 130" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+      <defs>
+        <linearGradient id="bab-tile" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#f7e3a4"/>
+          <stop offset="100%" stop-color="#c89a48"/>
+        </linearGradient>
+        <linearGradient id="bab-paper" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#fbf2d8"/>
+          <stop offset="100%" stop-color="#dcc890"/>
+        </linearGradient>
+        <linearGradient id="bab-film" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#1a1008"/>
+          <stop offset="50%" stop-color="#080402"/>
+          <stop offset="100%" stop-color="#1a1008"/>
+        </linearGradient>
+      </defs>
+
+      <!-- film strip backing -->
+      <rect x="0" y="0" width="440" height="130" rx="4" fill="url(#bab-film)"/>
+      <rect x="0" y="18"  width="440" height="0.6" fill="#3a2818" opacity="0.7"/>
+      <rect x="0" y="111" width="440" height="0.6" fill="#3a2818" opacity="0.7"/>
+
+      <!-- top sprocket holes -->
+      <g fill="#1a2e14">
+        <rect x="13"  y="5" width="14" height="10" rx="2"/>
+        <rect x="63"  y="5" width="14" height="10" rx="2"/>
+        <rect x="113" y="5" width="14" height="10" rx="2"/>
+        <rect x="163" y="5" width="14" height="10" rx="2"/>
+        <rect x="213" y="5" width="14" height="10" rx="2"/>
+        <rect x="263" y="5" width="14" height="10" rx="2"/>
+        <rect x="313" y="5" width="14" height="10" rx="2"/>
+        <rect x="363" y="5" width="14" height="10" rx="2"/>
+        <rect x="413" y="5" width="14" height="10" rx="2"/>
+      </g>
+      <!-- bottom sprocket holes -->
+      <g fill="#1a2e14">
+        <rect x="13"  y="115" width="14" height="10" rx="2"/>
+        <rect x="63"  y="115" width="14" height="10" rx="2"/>
+        <rect x="113" y="115" width="14" height="10" rx="2"/>
+        <rect x="163" y="115" width="14" height="10" rx="2"/>
+        <rect x="213" y="115" width="14" height="10" rx="2"/>
+        <rect x="263" y="115" width="14" height="10" rx="2"/>
+        <rect x="313" y="115" width="14" height="10" rx="2"/>
+        <rect x="363" y="115" width="14" height="10" rx="2"/>
+        <rect x="413" y="115" width="14" height="10" rx="2"/>
+      </g>
+
+      <!-- B (Scrabble tile) -->
+      <g>
+        <rect x="18" y="30" width="64" height="70" rx="6" fill="url(#bab-tile)" stroke="#6a4818" stroke-width="1.5"/>
+        <rect x="20" y="32" width="60" height="3" rx="1" fill="#fff5d4" opacity="0.55"/>
+        <text x="50" y="80" font-family="'Playfair Display',serif" font-weight="900" font-size="48" fill="#2a1a08" text-anchor="middle">B</text>
+        <text x="74" y="92" font-family="'VT323',monospace" font-size="13" fill="#5a3818" text-anchor="end">3</text>
+      </g>
+
+      <!-- A (crossword box) -->
+      <g>
+        <rect x="86" y="30" width="64" height="70" fill="url(#bab-paper)" stroke="#1a1008" stroke-width="1.5"/>
+        <text x="92"  y="44" font-family="'VT323',monospace" font-size="12" fill="#3a2818" text-anchor="start">1</text>
+        <text x="118" y="82" font-family="'Playfair Display',serif" font-weight="900" font-size="48" fill="#1a1008" text-anchor="middle">A</text>
+      </g>
+
+      <!-- B (Scrabble tile) -->
+      <g>
+        <rect x="154" y="30" width="64" height="70" rx="6" fill="url(#bab-tile)" stroke="#6a4818" stroke-width="1.5"/>
+        <rect x="156" y="32" width="60" height="3" rx="1" fill="#fff5d4" opacity="0.55"/>
+        <text x="186" y="80" font-family="'Playfair Display',serif" font-weight="900" font-size="48" fill="#2a1a08" text-anchor="middle">B</text>
+        <text x="210" y="92" font-family="'VT323',monospace" font-size="13" fill="#5a3818" text-anchor="end">3</text>
+      </g>
+
+      <!-- B (crossword box) -->
+      <g>
+        <rect x="222" y="30" width="64" height="70" fill="url(#bab-paper)" stroke="#1a1008" stroke-width="1.5"/>
+        <text x="228" y="44" font-family="'VT323',monospace" font-size="12" fill="#3a2818" text-anchor="start">2</text>
+        <text x="254" y="82" font-family="'Playfair Display',serif" font-weight="900" font-size="48" fill="#1a1008" text-anchor="middle">B</text>
+      </g>
+
+      <!-- L (Scrabble tile) -->
+      <g>
+        <rect x="290" y="30" width="64" height="70" rx="6" fill="url(#bab-tile)" stroke="#6a4818" stroke-width="1.5"/>
+        <rect x="292" y="32" width="60" height="3" rx="1" fill="#fff5d4" opacity="0.55"/>
+        <text x="322" y="80" font-family="'Playfair Display',serif" font-weight="900" font-size="48" fill="#2a1a08" text-anchor="middle">L</text>
+        <text x="346" y="92" font-family="'VT323',monospace" font-size="13" fill="#5a3818" text-anchor="end">1</text>
+      </g>
+
+      <!-- E (crossword box) -->
+      <g>
+        <rect x="358" y="30" width="64" height="70" fill="url(#bab-paper)" stroke="#1a1008" stroke-width="1.5"/>
+        <text x="364" y="44" font-family="'VT323',monospace" font-size="12" fill="#3a2818" text-anchor="start">3</text>
+        <text x="390" y="82" font-family="'Playfair Display',serif" font-weight="900" font-size="48" fill="#1a1008" text-anchor="middle">E</text>
+      </g>
+
+      <!-- aged film scratches -->
+      <g stroke="#5a3818" opacity="0.28" stroke-linecap="round" fill="none">
+        <line x1="62"  y1="24" x2="78"  y2="106" stroke-width="0.4"/>
+        <line x1="198" y1="22" x2="192" y2="108" stroke-width="0.3"/>
+        <line x1="338" y1="26" x2="346" y2="104" stroke-width="0.4"/>
+        <line x1="266" y1="20" x2="270" y2="110" stroke-width="0.25"/>
+      </g>
+    </svg>
+  </div>
+  <div class="flex items-center justify-center gap-3 mt-2" style="width:100%;max-width:340px;">
+    <div class="flex-grow h-px" style="background:linear-gradient(to right,transparent,var(--color-primary))"></div>
+    <span style="font-size:1rem;color:var(--color-primary);text-transform:uppercase;letter-spacing:0.4em;font-family:'VT323',monospace;white-space:nowrap;">Solve. Spell. Score.</span>
+    <div class="flex-grow h-px" style="background:linear-gradient(to left,transparent,var(--color-primary))"></div>
+  </div>
 
   <div class="btn-row">
     <button class="btn btn-primary"    onclick="startGame()">New Game</button>
@@ -586,9 +696,11 @@ body {
     </div>
   </div>
 
-  <div id="patch-notes"></div>
+  <div class="subpanel">
+    <button class="subpanel-btn" onclick="togglePanel('patch-notes', this)">Patch Notes <span class="subpanel-chevron">▼</span></button>
+    <div class="subpanel-body" id="patch-notes"></div>
+  </div>
 
-  <div style="margin-top:auto; font-family:VT323,monospace; font-size:.8rem; color:#2a4020;">v0.0.1</div>
 </div>
 
 <!-- ══════════════════════════════════════════════════════ GAME -->
@@ -644,7 +756,7 @@ body {
   <div class="btn-row">
     <button class="btn btn-primary"   onclick="startGame()">Play Again</button>
     <button class="btn btn-secondary" onclick="shareResult()">Share</button>
-    <button class="btn btn-secondary" onclick="showScreen('screen-home')">Home</button>
+    <button class="btn btn-secondary" onclick="goHome()">Home</button>
   </div>
 
   <div id="copy-status"></div>
@@ -689,17 +801,17 @@ const MULT_LABELS = { DL:'2L', TL:'3L', DW:'2W', TW:'3W', CENTER:'★' };
 
 const QB = [
   // Science / Nature
-  { cat:'Science',    q:'What element (symbol Fe) is the most abundant metal on Earth by mass?',    a:'IRON'         },
-  { cat:'Science',    q:'Which planet is known as the Red Planet?',                                  a:'MARS'         },
+  { cat:'Science',    q:'Which chemical element, symbol Na, is the main component of table salt?',   a:'SODIUM'       },
+  { cat:'Science',    q:'Which planet has the Great Red Spot, a storm larger than Earth?',           a:'JUPITER'      },
   { cat:'Science',    q:'What is the hardest natural substance on Earth?',                           a:'DIAMOND'      },
   { cat:'Science',    q:'Which gas makes up roughly 78% of Earth\'s atmosphere?',                    a:'NITROGEN'     },
   { cat:'Science',    q:'Which organ pumps blood around the human body?',                            a:'HEART'        },
   { cat:'Science',    q:'Which organelle is known as the powerhouse of the cell?',                   a:'MITOCHONDRIA' },
   { cat:'Science',    q:'What force keeps planets in orbit around the Sun?',                         a:'GRAVITY'      },
-  { cat:'Science',    q:'What is molten rock called once it reaches Earth\'s surface?',              a:'LAVA'         },
+  { cat:'Science',    q:'What is the name of the force that resists motion between two surfaces?',   a:'FRICTION'     },
   { cat:'Science',    q:'Which is the lightest and most abundant element in the universe?',          a:'HYDROGEN'     },
   // Geography
-  { cat:'Geography',  q:'What is the world\'s longest river?',                                       a:'NILE'         },
+  { cat:'Geography',  q:'What river, flowing through Brazil, carries more water than any other?',    a:'AMAZON'       },
   { cat:'Geography',  q:'Which is the world\'s largest ocean?',                                      a:'PACIFIC'      },
   { cat:'Geography',  q:'What is the capital city of France?',                                       a:'PARIS'        },
   { cat:'Geography',  q:'On which continent is the Sahara Desert located?',                          a:'AFRICA'       },
@@ -712,12 +824,12 @@ const QB = [
   { cat:'History',    q:'What famous ocean liner sank in the North Atlantic in 1912?',               a:'TITANIC'      },
   { cat:'History',    q:'What structure with a powerful flashing light guides ships from hazards?',  a:'LIGHTHOUSE'   },
   { cat:'History',    q:'What city was divided by a wall from 1961 to 1989?',                        a:'BERLIN'       },
-  { cat:'History',    q:'In which city is the ancient Colosseum located?',                           a:'ROME'         },
+  { cat:'History',    q:'Which Italian city built on a lagoon is famous for its canals and gondolas?', a:'VENICE'     },
   // Literature & Arts
   { cat:'Literature', q:'Who wrote Hamlet, Macbeth, and Romeo and Juliet?',                          a:'SHAKESPEARE'  },
   { cat:'Literature', q:'What is the name of Harry Potter\'s owl?',                                  a:'HEDWIG'       },
-  { cat:'Literature', q:'What is the name of the school of witchcraft and wizardry in Harry Potter?',a:'HOGWARTS'     },
-  { cat:'Literature', q:'Which animal is the national symbol of England?',                           a:'LION'         },
+  { cat:'Literature', q:'What is the name of the school of witchcraft in Harry Potter?',             a:'HOGWARTS'     },
+  { cat:'Literature', q:'What mythical creature has the body of a horse and a single spiralling horn?', a:'UNICORN'   },
   { cat:'Literature', q:'Which instrument has 88 black and white keys?',                             a:'PIANO'        },
   { cat:'Literature', q:'What musical term describes gradually getting louder?',                     a:'CRESCENDO'    },
   { cat:'Literature', q:'Which Shakespeare play features the line "To be or not to be"?',            a:'HAMLET'       },
@@ -735,9 +847,41 @@ const QB = [
   // General
   { cat:'General',    q:'Which racket sport uses a shuttlecock instead of a ball?',                  a:'BADMINTON'    },
   { cat:'General',    q:'In which card game do you try to reach 21 without going bust?',             a:'BLACKJACK'    },
+
+  // ── HARDER QUESTIONS ──────────────────────────────────────────────────────────
+  // Science (harder)
+  { cat:'Science',    q:'What scale, named after a seismologist, measures earthquake magnitude?',    a:'RICHTER'      },
+  { cat:'Science',    q:'What type of chemical bond forms when two atoms share electrons equally?',  a:'COVALENT'     },
+  { cat:'Science',    q:'What is the science of classifying and naming living organisms?',           a:'TAXONOMY'     },
+  // Geography (harder)
+  { cat:'Geography',  q:'What is the name of the world\'s deepest lake, located in Siberia?',       a:'BAIKAL'       },
+  { cat:'Geography',  q:'Which strait running through Istanbul links the Black Sea to the Sea of Marmara?', a:'BOSPHORUS' },
+  { cat:'Geography',  q:'Which country contains the largest portion of the Amazon rainforest?',     a:'BRAZIL'       },
+  // History (harder)
+  { cat:'History',    q:'What German encryption machine was cracked by Alan Turing at Bletchley Park?', a:'ENIGMA'   },
+  { cat:'History',    q:'What was the Allied codename for the D-Day invasion of Normandy in 1944?', a:'OVERLORD'     },
+  { cat:'History',    q:'What empire, the largest contiguous in history, was founded by Genghis Khan?', a:'MONGOL'   },
+  // Literature (harder)
+  { cat:'Literature', q:'What is the name of Sherlock Holmes\'s loyal sidekick and biographer?',    a:'WATSON'       },
+  { cat:'Literature', q:'What is the term for a 14-line poem typically in iambic pentameter?',      a:'SONNET'       },
+  { cat:'Literature', q:'In Greek mythology, who is the underworld ferryman who crosses the River Styx?', a:'CHARON' },
+  // Vocabulary (harder)
+  { cat:'Vocabulary', q:'What adjective describes something that lasts for only a very short time?', a:'TRANSIENT'   },
+  { cat:'Vocabulary', q:'What word describes a tendency to expect the worst outcome in any situation?', a:'PESSIMISM' },
+  { cat:'Vocabulary', q:'What word means deeply absorbed in thought, unaware of one\'s surroundings?', a:'PENSIVE'   },
+  // Animals (harder)
+  { cat:'Animals',    q:'Which marine animal has three hearts, blue blood, and eight arms?',         a:'OCTOPUS'      },
+  { cat:'Animals',    q:'What is the name of the venomous egg-laying mammal native to eastern Australia?', a:'PLATYPUS' },
+  { cat:'Animals',    q:'What is the scientific study of birds called?',                             a:'ORNITHOLOGY'  },
+  // General (harder)
+  { cat:'General',    q:'In chemistry, what term describes a substance that speeds up a reaction without being consumed?', a:'CATALYST' },
+  { cat:'General',    q:'What is the process by which yeast converts sugar into alcohol and carbon dioxide?', a:'FERMENTATION' },
+  { cat:'General',    q:'Which sport requires competitors to swim, cycle, and run in one continuous race?', a:'TRIATHLON' },
 ];
 
 const PATCH_NOTES = [
+  'v0.0.3 — SVG title logo added to home screen.',
+  'v0.0.2 — Version bump.',
   'v0.0.1 — How to Play, High Scores, and Settings subpanels added to home screen.',
   'v0.0.0 — Babble launches. Spell. Place. Score.',
 ];
@@ -1060,6 +1204,9 @@ function startGame(seed) {
   submitting   = false;
 
   initBoard();
+  if (!history.state || history.state.screen !== 'game') {
+    history.pushState({ screen: 'game' }, '');
+  }
   showScreen('screen-game');
   requestAnimationFrame(() => {
     resizeBoard();
@@ -1208,7 +1355,13 @@ function shareResult() {
 }
 
 function confirmQuit() {
-  if (confirm('Quit this game?')) showScreen('screen-home');
+  if (confirm('Quit this game?')) {
+    if (history.state && history.state.screen === 'game') {
+      history.back();
+    } else {
+      showScreen('screen-home');
+    }
+  }
 }
 
 function toggleChallenge() {
@@ -1301,6 +1454,21 @@ function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
 }
+
+function goHome() {
+  if (history.state && history.state.screen === 'game') {
+    history.back();
+  } else {
+    showScreen('screen-home');
+  }
+}
+
+window.addEventListener('popstate', () => {
+  const cur = document.querySelector('.screen.active');
+  if (cur && cur.id !== 'screen-home') {
+    showScreen('screen-home');
+  }
+});
 
 // ── INIT ──────────────────────────────────────────────────────────────────────
 
