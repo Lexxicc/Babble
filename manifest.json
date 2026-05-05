@@ -1,0 +1,9 @@
+{
+  "name": "Scramble",
+  "short_name": "Scramble",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0d1a09",
+  "theme_color": "#4a8040",
+  "icons": [{ "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }]
+}
