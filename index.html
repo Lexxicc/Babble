@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="author" content="lexxicc">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>Scramble — Solve. Spell. Score.</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -26,9 +26,14 @@ body {
   background: var(--color-bg-dark);
   color: #e8f5e2;
   font-family: 'Lato', sans-serif;
-  min-height: 100vh;
+  min-height: 100dvh;
   overflow-x: hidden;
+  overscroll-behavior: none;
   -webkit-tap-highlight-color: transparent;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  padding-left: env(safe-area-inset-left, 0px);
+  padding-right: env(safe-area-inset-right, 0px);
 }
 
 .screen { display: none; }
@@ -777,7 +782,7 @@ body::after {
     </div>
   </div>
 
-  <div id="tc-footer">Tacticon Studios · v0.0.5</div>
+  <div id="tc-footer">Tacticon Studios · v0.0.6</div>
 </div>
 
 <!-- ══════════════════════════════════════════════════════ END -->
@@ -917,6 +922,7 @@ const QB = [
 ];
 
 const PATCH_NOTES = [
+  'v0.0.6 — Mobile optimisation: viewport-fit=cover, safe-area inset padding, overscroll-behavior: none; word placement overlap fix.',
   'v0.0.5 — Version bump.',
   'v0.0.4 — Footer version string added.',
   'v0.0.3 — SVG title logo added to home screen.',
@@ -1038,7 +1044,9 @@ function calcScore(cells) {
 // ── PLACEMENT ─────────────────────────────────────────────────────────────────
 
 function tryPlace(word, r, c, dir) {
-  const cells = [];
+  const cells   = [];
+  const cellSet = new Set();
+
   for (let i = 0; i < word.length; i++) {
     const row = dir === 'H' ? r     : r + i;
     const col = dir === 'H' ? c + i : c;
@@ -1051,8 +1059,21 @@ function tryPlace(word, r, c, dir) {
       mult:   bc.usedMult ? null : bc.mult,
       isNew:  !bc.letter
     });
+    cellSet.add(`${row},${col}`);
   }
+
   if (!cells.some(cc => cc.isNew)) return null;
+
+  // Reject if any new tile is orthogonally adjacent to a letter from a different word
+  for (const cc of cells) {
+    if (!cc.isNew) continue;
+    for (const [dr, dc] of [[-1,0],[1,0],[0,-1],[0,1]]) {
+      const nr = cc.r + dr, nc = cc.c + dc;
+      if (nr < 0 || nr >= N || nc < 0 || nc >= N) continue;
+      if (board[nr][nc].letter && !cellSet.has(`${nr},${nc}`)) return null;
+    }
+  }
+
   return { r, c, dir, cells, score: calcScore(cells) };
 }
 
@@ -1270,7 +1291,7 @@ function loadQ() {
   document.getElementById('q-category').textContent = q.cat;
   document.getElementById('q-text').textContent     = q.q;
   document.getElementById('q-meta').textContent     =
-    `${qIndex + 1}/10${passedOnce.has(qIndex) ? ' · 2nd try' : ''}`;
+    `${qIndex + 1}/10${passedOnce.has(qIndex) ? ' · 2nd try' : ''} · ${q.a.length} letters`;
   document.getElementById('feedback').textContent   = '';
 
   sel          = [];
