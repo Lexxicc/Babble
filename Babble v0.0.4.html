@@ -652,15 +652,15 @@ body {
   </div>
 
   <div class="btn-row">
-    <button class="btn btn-primary"    onclick="startGame()">New Game</button>
-    <button class="btn btn-secondary"  onclick="toggleChallenge()">Challenge Mode</button>
+    <button class="btn btn-primary" onclick="startGame()">New Game</button>
   </div>
 
-  <div id="challenge-box" style="display:none;">
+  <div id="challenge-box">
+    <p style="font-family:'VT323',monospace;font-size:.85rem;color:var(--color-primary);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.25rem;">Accept a challenge</p>
     <input id="seed-input" class="seed-input" type="text"
       placeholder="Enter seed code (hex)"
       autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
-    <button class="btn btn-primary" style="width:100%;" onclick="startChallenge()">Play Challenge</button>
+    <button class="btn btn-secondary" style="width:100%;" onclick="startChallenge()">Accept Challenge</button>
   </div>
 
   <div class="subpanel">
@@ -692,6 +692,16 @@ body {
       <div class="setting-row">
         <span class="setting-label">Sound</span>
         <button class="toggle-btn" id="mute-btn" onclick="toggleMute()">ON</button>
+      </div>
+      <div class="setting-row" style="flex-direction:column;align-items:flex-start;gap:.25rem;">
+        <span class="setting-label">Volume</span>
+        <input type="range" min="0" max="100" value="50" style="width:100%;accent-color:var(--color-accent);"
+          oninput="updateSFXVolume(this.value)">
+      </div>
+      <div class="setting-row" style="flex-direction:column;align-items:flex-start;gap:.25rem;">
+        <span class="setting-label">Brightness — <span id="brightness-label">100%</span></span>
+        <input type="range" min="20" max="150" value="100" style="width:100%;accent-color:var(--color-accent);"
+          oninput="updateBrightness(this.value)">
       </div>
     </div>
   </div>
@@ -755,7 +765,7 @@ body {
 
   <div class="btn-row">
     <button class="btn btn-primary"   onclick="startGame()">Play Again</button>
-    <button class="btn btn-secondary" onclick="shareResult()">Share</button>
+    <button class="btn btn-secondary" onclick="shareResult()">Generate Challenge Code</button>
     <button class="btn btn-secondary" onclick="goHome()">Home</button>
   </div>
 
@@ -1091,7 +1101,7 @@ function beep(freq, dur, type = 'square', vol = 0.11) {
     gain.connect(audioCtx.destination);
     osc.type = type;
     osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-    gain.gain.setValueAtTime(vol, audioCtx.currentTime);
+    gain.gain.setValueAtTime(vol * _sfxVol, audioCtx.currentTime);
     gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + dur);
     osc.start();
     osc.stop(audioCtx.currentTime + dur);
@@ -1383,13 +1393,8 @@ function startChallenge() {
 // ── STATS ─────────────────────────────────────────────────────────────────────
 
 const STATS_KEY = 'BAB_stats';
-const WIPE_KEY  = 'BAB_wipe_v0.0.0';
 
 function loadStats() {
-  if (!localStorage.getItem(WIPE_KEY)) {
-    localStorage.removeItem(STATS_KEY);
-    localStorage.setItem(WIPE_KEY, '1');
-  }
   try {
     return JSON.parse(localStorage.getItem(STATS_KEY)) || { played:0, total:0, best:0 };
   } catch(e) {
@@ -1437,6 +1442,7 @@ function togglePanel(bodyId, btn) {
 // ── MUTE ──────────────────────────────────────────────────────────────────────
 
 let muted = localStorage.getItem('BAB_muted') === '1';
+let _sfxVol = 0.5;
 
 function applyMuteBtn() {
   const btn = document.getElementById('mute-btn');
@@ -1447,6 +1453,13 @@ function toggleMute() {
   muted = !muted;
   localStorage.setItem('BAB_muted', muted ? '1' : '0');
   applyMuteBtn();
+}
+
+function updateSFXVolume(v) { _sfxVol = parseInt(v) / 100; }
+function updateBrightness(v) {
+  document.body.style.filter = 'brightness(' + (parseInt(v) / 100) + ')';
+  var lbl = document.getElementById('brightness-label');
+  if (lbl) lbl.textContent = v + '%';
 }
 
 // ── SCREENS ───────────────────────────────────────────────────────────────────
