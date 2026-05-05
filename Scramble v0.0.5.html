@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="author" content="lexxicc">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Babble — Solve. Spell. Score.</title>
+<title>Scramble — Solve. Spell. Score.</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=VT323&display=swap" rel="stylesheet">
@@ -537,24 +537,35 @@ body {
 .hs-row { display: flex; justify-content: space-between; padding: 2px 0; border-bottom: 1px solid rgba(74,128,64,.15); }
 .hs-label { color: var(--color-primary); }
 .hs-val { color: var(--color-glow); }
+
+/* Viewport border */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 1%;
+  border: 1px solid var(--color-primary);
+  pointer-events: none;
+  z-index: 9999;
+  border-radius: 2px;
+}
 </style>
 </head>
 <body>
 
 <!-- ══════════════════════════════════════════════════════ HOME -->
 <div id="screen-home" class="screen">
-  <div class="home-logo" role="img" aria-label="BABBLE">
-    <svg viewBox="0 0 440 130" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+  <div class="home-logo" role="img" aria-label="SCRAMBLE">
+    <svg viewBox="0 0 472 130" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
       <defs>
-        <linearGradient id="bab-tile" x1="0" y1="0" x2="0" y2="1">
+        <linearGradient id="scr-tile" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0%" stop-color="#f7e3a4"/>
           <stop offset="100%" stop-color="#c89a48"/>
         </linearGradient>
-        <linearGradient id="bab-paper" x1="0" y1="0" x2="0" y2="1">
+        <linearGradient id="scr-paper" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0%" stop-color="#fbf2d8"/>
           <stop offset="100%" stop-color="#dcc890"/>
         </linearGradient>
-        <linearGradient id="bab-film" x1="0" y1="0" x2="0" y2="1">
+        <linearGradient id="scr-film" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0%" stop-color="#1a1008"/>
           <stop offset="50%" stop-color="#080402"/>
           <stop offset="100%" stop-color="#1a1008"/>
@@ -562,9 +573,9 @@ body {
       </defs>
 
       <!-- film strip backing -->
-      <rect x="0" y="0" width="440" height="130" rx="4" fill="url(#bab-film)"/>
-      <rect x="0" y="18"  width="440" height="0.6" fill="#3a2818" opacity="0.7"/>
-      <rect x="0" y="111" width="440" height="0.6" fill="#3a2818" opacity="0.7"/>
+      <rect x="0" y="0" width="472" height="130" rx="4" fill="url(#scr-film)"/>
+      <rect x="0" y="18"  width="472" height="0.6" fill="#3a2818" opacity="0.7"/>
+      <rect x="0" y="111" width="472" height="0.6" fill="#3a2818" opacity="0.7"/>
 
       <!-- top sprocket holes -->
       <g fill="#1a2e14">
@@ -591,49 +602,64 @@ body {
         <rect x="413" y="115" width="14" height="10" rx="2"/>
       </g>
 
-      <!-- B (Scrabble tile) -->
+      <!-- S (Scrabble tile, value 1) -->
       <g>
-        <rect x="18" y="30" width="64" height="70" rx="6" fill="url(#bab-tile)" stroke="#6a4818" stroke-width="1.5"/>
-        <rect x="20" y="32" width="60" height="3" rx="1" fill="#fff5d4" opacity="0.55"/>
-        <text x="50" y="80" font-family="'Playfair Display',serif" font-weight="900" font-size="48" fill="#2a1a08" text-anchor="middle">B</text>
-        <text x="74" y="92" font-family="'VT323',monospace" font-size="13" fill="#5a3818" text-anchor="end">3</text>
+        <rect x="14" y="30" width="52" height="70" rx="6" fill="url(#scr-tile)" stroke="#6a4818" stroke-width="1.5"/>
+        <rect x="16" y="32" width="48" height="3" rx="1" fill="#fff5d4" opacity="0.55"/>
+        <text x="40" y="80" font-family="'Playfair Display',serif" font-weight="900" font-size="40" fill="#2a1a08" text-anchor="middle">S</text>
+        <text x="62" y="92" font-family="'VT323',monospace" font-size="12" fill="#5a3818" text-anchor="end">1</text>
+      </g>
+
+      <!-- C (crossword box) -->
+      <g>
+        <rect x="70" y="30" width="52" height="70" fill="url(#scr-paper)" stroke="#1a1008" stroke-width="1.5"/>
+        <text x="76"  y="44" font-family="'VT323',monospace" font-size="12" fill="#3a2818" text-anchor="start">1</text>
+        <text x="96" y="78" font-family="'Playfair Display',serif" font-weight="900" font-size="40" fill="#1a1008" text-anchor="middle">C</text>
+      </g>
+
+      <!-- R (Scrabble tile, value 1) -->
+      <g>
+        <rect x="126" y="30" width="52" height="70" rx="6" fill="url(#scr-tile)" stroke="#6a4818" stroke-width="1.5"/>
+        <rect x="128" y="32" width="48" height="3" rx="1" fill="#fff5d4" opacity="0.55"/>
+        <text x="152" y="80" font-family="'Playfair Display',serif" font-weight="900" font-size="40" fill="#2a1a08" text-anchor="middle">R</text>
+        <text x="174" y="92" font-family="'VT323',monospace" font-size="12" fill="#5a3818" text-anchor="end">1</text>
       </g>
 
       <!-- A (crossword box) -->
       <g>
-        <rect x="86" y="30" width="64" height="70" fill="url(#bab-paper)" stroke="#1a1008" stroke-width="1.5"/>
-        <text x="92"  y="44" font-family="'VT323',monospace" font-size="12" fill="#3a2818" text-anchor="start">1</text>
-        <text x="118" y="82" font-family="'Playfair Display',serif" font-weight="900" font-size="48" fill="#1a1008" text-anchor="middle">A</text>
+        <rect x="182" y="30" width="52" height="70" fill="url(#scr-paper)" stroke="#1a1008" stroke-width="1.5"/>
+        <text x="188" y="44" font-family="'VT323',monospace" font-size="12" fill="#3a2818" text-anchor="start">2</text>
+        <text x="208" y="78" font-family="'Playfair Display',serif" font-weight="900" font-size="40" fill="#1a1008" text-anchor="middle">A</text>
       </g>
 
-      <!-- B (Scrabble tile) -->
+      <!-- M (Scrabble tile, value 3) -->
       <g>
-        <rect x="154" y="30" width="64" height="70" rx="6" fill="url(#bab-tile)" stroke="#6a4818" stroke-width="1.5"/>
-        <rect x="156" y="32" width="60" height="3" rx="1" fill="#fff5d4" opacity="0.55"/>
-        <text x="186" y="80" font-family="'Playfair Display',serif" font-weight="900" font-size="48" fill="#2a1a08" text-anchor="middle">B</text>
-        <text x="210" y="92" font-family="'VT323',monospace" font-size="13" fill="#5a3818" text-anchor="end">3</text>
+        <rect x="238" y="30" width="52" height="70" rx="6" fill="url(#scr-tile)" stroke="#6a4818" stroke-width="1.5"/>
+        <rect x="240" y="32" width="48" height="3" rx="1" fill="#fff5d4" opacity="0.55"/>
+        <text x="264" y="80" font-family="'Playfair Display',serif" font-weight="900" font-size="40" fill="#2a1a08" text-anchor="middle">M</text>
+        <text x="286" y="92" font-family="'VT323',monospace" font-size="12" fill="#5a3818" text-anchor="end">3</text>
       </g>
 
       <!-- B (crossword box) -->
       <g>
-        <rect x="222" y="30" width="64" height="70" fill="url(#bab-paper)" stroke="#1a1008" stroke-width="1.5"/>
-        <text x="228" y="44" font-family="'VT323',monospace" font-size="12" fill="#3a2818" text-anchor="start">2</text>
-        <text x="254" y="82" font-family="'Playfair Display',serif" font-weight="900" font-size="48" fill="#1a1008" text-anchor="middle">B</text>
+        <rect x="294" y="30" width="52" height="70" fill="url(#scr-paper)" stroke="#1a1008" stroke-width="1.5"/>
+        <text x="300" y="44" font-family="'VT323',monospace" font-size="12" fill="#3a2818" text-anchor="start">3</text>
+        <text x="320" y="78" font-family="'Playfair Display',serif" font-weight="900" font-size="40" fill="#1a1008" text-anchor="middle">B</text>
       </g>
 
-      <!-- L (Scrabble tile) -->
+      <!-- L (Scrabble tile, value 1) -->
       <g>
-        <rect x="290" y="30" width="64" height="70" rx="6" fill="url(#bab-tile)" stroke="#6a4818" stroke-width="1.5"/>
-        <rect x="292" y="32" width="60" height="3" rx="1" fill="#fff5d4" opacity="0.55"/>
-        <text x="322" y="80" font-family="'Playfair Display',serif" font-weight="900" font-size="48" fill="#2a1a08" text-anchor="middle">L</text>
-        <text x="346" y="92" font-family="'VT323',monospace" font-size="13" fill="#5a3818" text-anchor="end">1</text>
+        <rect x="350" y="30" width="52" height="70" rx="6" fill="url(#scr-tile)" stroke="#6a4818" stroke-width="1.5"/>
+        <rect x="352" y="32" width="48" height="3" rx="1" fill="#fff5d4" opacity="0.55"/>
+        <text x="376" y="80" font-family="'Playfair Display',serif" font-weight="900" font-size="40" fill="#2a1a08" text-anchor="middle">L</text>
+        <text x="398" y="92" font-family="'VT323',monospace" font-size="12" fill="#5a3818" text-anchor="end">1</text>
       </g>
 
       <!-- E (crossword box) -->
       <g>
-        <rect x="358" y="30" width="64" height="70" fill="url(#bab-paper)" stroke="#1a1008" stroke-width="1.5"/>
-        <text x="364" y="44" font-family="'VT323',monospace" font-size="12" fill="#3a2818" text-anchor="start">3</text>
-        <text x="390" y="82" font-family="'Playfair Display',serif" font-weight="900" font-size="48" fill="#1a1008" text-anchor="middle">E</text>
+        <rect x="406" y="30" width="52" height="70" fill="url(#scr-paper)" stroke="#1a1008" stroke-width="1.5"/>
+        <text x="412" y="44" font-family="'VT323',monospace" font-size="12" fill="#3a2818" text-anchor="start">4</text>
+        <text x="432" y="78" font-family="'Playfair Display',serif" font-weight="900" font-size="40" fill="#1a1008" text-anchor="middle">E</text>
       </g>
 
       <!-- aged film scratches -->
@@ -717,7 +743,7 @@ body {
 <div id="screen-game" class="screen">
   <div id="game-header">
     <button class="btn btn-danger" style="padding:.28rem .6rem;font-size:.8rem;" onclick="confirmQuit()">Quit</button>
-    <span id="game-title">BABBLE</span>
+    <span id="game-title">SCRAMBLE</span>
     <span id="score-display">0 pts</span>
   </div>
 
@@ -744,6 +770,7 @@ body {
 
       <div class="action-row">
         <button class="btn btn-secondary" onclick="clearAttempt()">Clear</button>
+        <button class="btn btn-secondary" onclick="deleteLastTile()">Delete</button>
         <button class="btn btn-secondary" onclick="passQ()">Pass</button>
         <button class="btn btn-primary"   onclick="submitAnswer()">Submit</button>
       </div>
@@ -755,7 +782,7 @@ body {
 
 <!-- ══════════════════════════════════════════════════════ END -->
 <div id="screen-end" class="screen">
-  <h1 class="end-title">BABBLE</h1>
+  <h1 class="end-title">SCRAMBLE</h1>
   <div class="end-score" id="end-score-val"></div>
 
   <div class="breakdown-box">
@@ -895,7 +922,7 @@ const PATCH_NOTES = [
   'v0.0.3 — SVG title logo added to home screen.',
   'v0.0.2 — Version bump.',
   'v0.0.1 — How to Play, High Scores, and Settings subpanels added to home screen.',
-  'v0.0.0 — Babble launches. Spell. Place. Score.',
+  'v0.0.0 — Scramble launches. Spell. Place. Score.',
 ];
 
 // ── STATE ─────────────────────────────────────────────────────────────────────
@@ -1193,6 +1220,12 @@ function clearAttempt() {
   renderAttempt();
 }
 
+function deleteLastTile() {
+  if (!sel.length) return;
+  sfxTap();
+  deselectTile(sel[sel.length - 1]);
+}
+
 // ── GAME FLOW ─────────────────────────────────────────────────────────────────
 
 function startGame(seed) {
@@ -1355,7 +1388,7 @@ function shareResult() {
     ? challengeSeedHex
     : roundSeed.toString(16).padStart(8, '0')
   ).toUpperCase();
-  const text = `BABBLE — ${totalScore} pts\nSeed: ${seedHex}\nSpell. Place. Score.`;
+  const text = `SCRAMBLE — ${totalScore} pts\nSeed: ${seedHex}\nSpell. Place. Score.`;
 
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(text)
@@ -1393,7 +1426,7 @@ function startChallenge() {
 
 // ── STATS ─────────────────────────────────────────────────────────────────────
 
-const STATS_KEY = 'BAB_stats';
+const STATS_KEY = 'SCR_stats';
 
 function loadStats() {
   try {
@@ -1442,7 +1475,7 @@ function togglePanel(bodyId, btn) {
 
 // ── MUTE ──────────────────────────────────────────────────────────────────────
 
-let muted = localStorage.getItem('BAB_muted') === '1';
+let muted = localStorage.getItem('SCR_muted') === '1';
 let _sfxVol = 0.5;
 
 function applyMuteBtn() {
@@ -1452,7 +1485,7 @@ function applyMuteBtn() {
 
 function toggleMute() {
   muted = !muted;
-  localStorage.setItem('BAB_muted', muted ? '1' : '0');
+  localStorage.setItem('SCR_muted', muted ? '1' : '0');
   applyMuteBtn();
 }
 
