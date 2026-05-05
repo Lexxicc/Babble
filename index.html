@@ -242,6 +242,7 @@ body {
 .cell-CENTER { background: #281803; }
 .cell-CENTER .cell-mult { color: var(--color-glow); }
 .cell-last   { background: #182c10; }
+.cell-preview { background: #221a06 !important; box-shadow: inset 0 0 0 1px rgba(240,217,138,0.22); }
 
 /* Controls */
 #controls-panel {
@@ -782,7 +783,7 @@ body::after {
     </div>
   </div>
 
-  <div id="tc-footer">Tacticon Studios · v0.0.6</div>
+  <div id="tc-footer">Tacticon Studios · v0.0.7</div>
 </div>
 
 <!-- ══════════════════════════════════════════════════════ END -->
@@ -922,6 +923,7 @@ const QB = [
 ];
 
 const PATCH_NOTES = [
+  'v0.0.7 — Tile placement preview: best word placement highlighted on board when question loads.',
   'v0.0.6 — Mobile optimisation: viewport-fit=cover, safe-area inset padding, overscroll-behavior: none; word placement overlap fix.',
   'v0.0.5 — Version bump.',
   'v0.0.4 — Footer version string added.',
@@ -942,6 +944,7 @@ let roundSeed    = 0, rng = null;
 let isChallengeMode = false, challengeSeedHex = '';
 let audioCtx     = null;
 let submitting   = false;
+let previewPlacement = null;
 
 // ── RNG ───────────────────────────────────────────────────────────────────────
 
@@ -995,12 +998,17 @@ function renderBoard() {
         span.className = 'cell-letter' + (isNew ? ' new-letter' : '');
         span.textContent = bc.letter;
         div.appendChild(span);
-      } else if (bc.mult) {
-        div.classList.add('cell-' + bc.mult);
-        const span = document.createElement('span');
-        span.className = 'cell-mult';
-        span.textContent = MULT_LABELS[bc.mult] || '';
-        div.appendChild(span);
+      } else {
+        if (previewPlacement && previewPlacement.cells.some(cc => cc.r === r && cc.c === c && cc.isNew)) {
+          div.classList.add('cell-preview');
+        }
+        if (bc.mult) {
+          div.classList.add('cell-' + bc.mult);
+          const span = document.createElement('span');
+          span.className = 'cell-mult';
+          span.textContent = MULT_LABELS[bc.mult] || '';
+          div.appendChild(span);
+        }
       }
 
       el.appendChild(div);
@@ -1264,10 +1272,11 @@ function startGame(seed) {
   passedOnce   = new Set();
   totalScore   = 0;
   breakdown    = [];
-  lastPlaced   = [];
-  sel          = [];
-  currentTiles = [];
-  submitting   = false;
+  lastPlaced       = [];
+  sel              = [];
+  currentTiles     = [];
+  submitting       = false;
+  previewPlacement = null;
 
   initBoard();
   if (!history.state || history.state.screen !== 'game') {
@@ -1296,6 +1305,8 @@ function loadQ() {
 
   sel          = [];
   currentTiles = buildRack(q.a);
+  previewPlacement = bestPlacement(q.a);
+  renderBoard();
   renderRack();
   renderAttempt();
 }
@@ -1326,7 +1337,8 @@ function submitAnswer() {
   const wasPassed = passedOnce.has(qIndex);
   qQueue.shift();
 
-  const placement = bestPlacement(q.a);
+  const placement = previewPlacement;
+  previewPlacement = null;
   let pts = 0;
   let note = '';
 
@@ -1354,6 +1366,8 @@ function passQ() {
   if (submitting) return;
   const q = qQueue[0];
   if (!q) return;
+  previewPlacement = null;
+  renderBoard();
   const qIndex = questions.indexOf(q);
 
   if (passedOnce.has(qIndex)) {
