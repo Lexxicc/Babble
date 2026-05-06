@@ -93,6 +93,7 @@ body {
   cursor: pointer;
   transition: transform .1s, filter .15s;
   -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 .btn:active { transform: scale(.93); }
 .btn-primary   { background: var(--color-accent); color: var(--color-shadow); }
@@ -212,6 +213,7 @@ body {
   justify-content: center;
   background: #101e0c;
   overflow: hidden;
+  touch-action: manipulation;
 }
 
 .cell-letter {
@@ -344,6 +346,7 @@ body {
   transition: transform .08s;
   flex-shrink: 0;
   -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 .tile:active { transform: scale(.88) translateY(1px); }
 .tile.filler { background: #c2a455; border-bottom-color: #684a18; color: #281800; }
@@ -562,6 +565,10 @@ body::after {
   pointer-events: none;
   z-index: 9999;
   border-radius: 2px;
+}
+@media (pointer: coarse) {
+  .btn { padding: .75rem 1.6rem; font-size: 1rem; }
+  .tile { width: 2.6rem; height: 3rem; font-size: 1.25rem; }
 }
 </style>
 </head>
@@ -792,7 +799,7 @@ body::after {
     </div>
   </div>
 
-  <div id="tc-footer">Tacticon Studios · v0.0.9</div>
+  <div id="tc-footer">Tacticon Studios · v0.0.10</div>
 </div>
 
 <!-- ══════════════════════════════════════════════════════ END -->
@@ -932,6 +939,7 @@ const QB = [
 ];
 
 const PATCH_NOTES = [
+  'v0.0.10 — Mobile portrait layout improvements.',
   'v0.0.9 — Improved service worker: CDN resources now cached for offline support.',
   'v0.0.8 — PWA install support added.',
   'v0.0.7 — Tile placement preview: best word placement highlighted on board when question loads.',
@@ -1474,6 +1482,7 @@ function startChallenge() {
 // ── STATS ─────────────────────────────────────────────────────────────────────
 
 const STATS_KEY = 'SCR_stats';
+(function(){if(localStorage.getItem('WIPE_PLAYER_HISTORY')){localStorage.removeItem(STATS_KEY);localStorage.removeItem('WIPE_PLAYER_HISTORY');}})();
 
 function loadStats() {
   try {
