@@ -51,6 +51,7 @@ body {
   flex-direction: column;
   align-items: center;
   min-height: 100vh;
+  min-height: 100dvh;
   padding: 2.5rem 1.25rem 2rem;
   gap: 1.25rem;
 }
@@ -383,6 +384,7 @@ body {
   flex-direction: column;
   align-items: center;
   min-height: 100vh;
+  min-height: 100dvh;
   padding: 2.5rem 1.25rem 3rem;
   gap: 1.25rem;
 }
@@ -790,7 +792,7 @@ body::after {
     </div>
   </div>
 
-  <div id="tc-footer">Tacticon Studios · v0.0.8</div>
+  <div id="tc-footer">Tacticon Studios · v0.0.9</div>
 </div>
 
 <!-- ══════════════════════════════════════════════════════ END -->
@@ -930,6 +932,7 @@ const QB = [
 ];
 
 const PATCH_NOTES = [
+  'v0.0.9 — Improved service worker: CDN resources now cached for offline support.',
   'v0.0.8 — PWA install support added.',
   'v0.0.7 — Tile placement preview: best word placement highlighted on board when question loads.',
   'v0.0.6 — Mobile optimisation: viewport-fit=cover, safe-area inset padding, overscroll-behavior: none; word placement overlap fix.',
@@ -953,6 +956,7 @@ let isChallengeMode = false, challengeSeedHex = '';
 let audioCtx     = null;
 let submitting   = false;
 let previewPlacement = null;
+let loadQTimer   = null;
 
 // ── RNG ───────────────────────────────────────────────────────────────────────
 
@@ -1367,7 +1371,7 @@ function submitAnswer() {
   breakdown.push({ word: q.a, pts, note });
   document.getElementById('score-display').textContent = totalScore + ' pts';
 
-  setTimeout(loadQ, 1400);
+  loadQTimer = setTimeout(loadQ, 1400);
 }
 
 function passQ() {
@@ -1390,7 +1394,7 @@ function passQ() {
   }
 
   clearAttempt();
-  setTimeout(loadQ, 700);
+  loadQTimer = setTimeout(loadQ, 700);
 }
 
 function setFeedback(msg, color) {
@@ -1547,6 +1551,8 @@ function showScreen(id) {
 }
 
 function goHome() {
+  clearTimeout(loadQTimer);
+  loadQTimer = null;
   if (history.state && history.state.screen === 'game') {
     history.back();
   } else {
@@ -1555,6 +1561,8 @@ function goHome() {
 }
 
 window.addEventListener('popstate', () => {
+  clearTimeout(loadQTimer);
+  loadQTimer = null;
   const cur = document.querySelector('.screen.active');
   if (cur && cur.id !== 'screen-home') {
     showScreen('screen-home');
